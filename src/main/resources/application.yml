@@ -12,3 +12,9 @@ spring:
       hibernate:
         format_sql: true #To beautify or pretty print the SQL
         show_sql: true #show sql
+
+jwt:
+  # kimbanseokTokenkimbanseokTokenkimbanseokToken
+  # BASE64 인코딩
+  secretKey: a2ltYmFuc2Vva1Rva2Vua2ltYmFuc2Vva1Rva2Vua2ltYmFuc2Vva1Rva2Vu
+  expiration : 3000
