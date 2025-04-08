@@ -2,17 +2,17 @@ package com.example.filterandlogging.member.controller;
 
 import com.example.filterandlogging.common.auth.JwtTokenProvider;
 import com.example.filterandlogging.member.domain.Member;
+import com.example.filterandlogging.member.dto.MemberListResDto;
 import com.example.filterandlogging.member.dto.MemberLoginReqDto;
 import com.example.filterandlogging.member.dto.MemberReqDto;
 import com.example.filterandlogging.member.service.MemberService;
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -44,5 +44,12 @@ public class MemberController {
         loginInfo.put("id", member.getId());
         loginInfo.put("token", jwtToken);
         return new ResponseEntity<>(loginInfo, HttpStatus.OK);
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<?> memberList() {
+        List<MemberListResDto> dto = memberService.findAll();
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+
     }
 }
