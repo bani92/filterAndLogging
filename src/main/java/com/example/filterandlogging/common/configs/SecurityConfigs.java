@@ -1,6 +1,7 @@
 package com.example.filterandlogging.common.configs;
 
 import com.example.filterandlogging.common.auth.JwtAuthFilter;
+import com.example.filterandlogging.common.auth.XSSFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,11 +21,16 @@ import java.util.Arrays;
 @Configuration
 public class SecurityConfigs {
 
-    private final JwtAuthFilter jwtAuthFilter;
-
-    public SecurityConfigs(JwtAuthFilter jwtAuthFilter) {
-        this.jwtAuthFilter = jwtAuthFilter;
+    @Bean
+    public JwtAuthFilter jwtAuthFilter() {
+        return new JwtAuthFilter();
     }
+
+//    private final JwtAuthFilter jwtAuthFilter;
+//
+//    public SecurityConfigs(JwtAuthFilter jwtAuthFilter) {
+//        this.jwtAuthFilter = jwtAuthFilter;
+//    }
 
     @Bean
     public SecurityFilterChain myFilter(HttpSecurity httpSecurity) throws Exception {
@@ -35,7 +41,8 @@ public class SecurityConfigs {
                 .authorizeHttpRequests(a -> a.requestMatchers("/member/create","/member/doLogin").permitAll().anyRequest().authenticated())
                 // requestMatchers 안에는 허용, 나머지는 인증처리(Authentication 객체를 요구함)
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 세션방식을 사용하지 않겠다
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new XSSFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthFilter(), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 

@@ -5,6 +5,7 @@ import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -21,7 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Slf4j
 public class JwtAuthFilter extends GenericFilter {
 
     @Value("${jwt.secretKey}")
@@ -31,6 +32,8 @@ public class JwtAuthFilter extends GenericFilter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+
+        log.info("===== Jwt Auth 필터 시작 =====");
         String token = httpServletRequest.getHeader("Authorization");
         try {
             if(token != null) {
@@ -53,6 +56,7 @@ public class JwtAuthFilter extends GenericFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
             }
+            log.info("===== Jwt Auth 필터 끝 =====");
             filterChain.doFilter(request, response);
         } catch (Exception e) {
             e.printStackTrace();
