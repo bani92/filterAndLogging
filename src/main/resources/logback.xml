@@ -1,0 +1,73 @@
+<configuration>
+    <property name="LOG_FILE" value="application.log"/>
+
+    <!-- 수행 로그 표준 출력 정의 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd_HH:mm:ss.SSS} [%thread] %-5level %logger{36}:%L - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 오류 로그 표준 출력 정의 -->
+    <appender name="ERROR_STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd_HH:mm:ss.SSS} [%thread] %-5level %logger{36}:%L - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 파일 출력 -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_FILE}</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>application.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level [%thread] %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 정상 수행 로그 로그백 파일에 대한 설정 영역 -->
+<!--    <appender name="FILELOG_BASE" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+<!--        <file>${FILE_LOG_HOME}/${SPRING_APP_NAME}/${SPRING_APP_NAME}-${SPRING_APP_ACTIVE}.log</file>-->
+<!--        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">-->
+<!--            <fileNamePattern>${FILE_LOG_HOME}/${SPRING_APP_NAME}/archived/${SPRING_APP_NAME}-${SPRING_APP_ACTIVE}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>-->
+<!--            <maxFileSize>10MB</maxFileSize>-->
+<!--            <totalSizeCap>20GB</totalSizeCap>-->
+<!--            <maxHistory>60</maxHistory>-->
+<!--        </rollingPolicy>-->
+<!--        <encoder>-->
+<!--            <charset>UTF-8</charset>-->
+<!--            <pattern>%d{yyyy-MM-dd_HH:mm:ss.SSS} [%thread] %-5level %logger{36}:%L - %msg%n</pattern>-->
+<!--        </encoder>-->
+<!--    </appender>-->
+
+    <!-- 오류 로그 로그백 파일에 대한 설정 영역 -->
+<!--    <appender name="FILELOG_ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+<!--        <file>${FILE_LOG_HOME}/${SPRING_APP_NAME}/${SPRING_APP_NAME}-${SPRING_APP_ACTIVE}-error.log</file>-->
+<!--        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">-->
+<!--            <fileNamePattern>${FILE_LOG_HOME}/${SPRING_APP_NAME}/archived/${SPRING_APP_NAME}-${SPRING_APP_ACTIVE}-error.%d{yyyy-MM-dd}.%i.log</fileNamePattern>-->
+<!--            <maxFileSize>10MB</maxFileSize>-->
+<!--            <totalSizeCap>20GB</totalSizeCap>-->
+<!--            <maxHistory>60</maxHistory>-->
+<!--        </rollingPolicy>-->
+<!--        <encoder>-->
+<!--            <charset>UTF-8</charset>-->
+<!--            <pattern>%d{yyyy-MM-dd_HH:mm:ss.SSS} [%thread] %-5level %logger{36}:%L - %msg%n</pattern>-->
+<!--        </encoder>-->
+<!--    </appender>-->
+
+
+    <!-- Logger 설정 -->
+    <root level="info">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+<!--        <appender-ref ref="FILELOG_BASE" />-->
+    </root>
+
+<!--    <root level="ERROR">-->
+<!--        <appender-ref ref="ERROR_STDOUT" />-->
+<!--       <appender-ref ref="FILELOG_ERROR"/>-->
+<!--    </root>-->
+
+</configuration>
